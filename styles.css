@@ -188,6 +188,21 @@ footer {
   }
 }
 
+/* Subscribe Section */
+.subscribe-section {
+  padding: calc(var(--spacing-unit) * 7.5); /* 60px */
+  margin: calc(var(--spacing-unit) * 4) 0;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Make sure the Beehiiv embed inherits our font */
+.subscribe-section iframe {
+  font-family: 'Inter', sans-serif !important;
+}
+
 /* Hover Effects */
 .logo {
   transition: transform 0.3s ease;
