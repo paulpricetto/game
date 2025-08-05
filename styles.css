@@ -189,21 +189,31 @@ footer {
 }
 
 /* Subscribe Section */
-.subscribe-section {
-  padding: calc(var(--spacing-unit) * 4) 0;
-  margin: calc(var(--spacing-unit) * 4) auto;
-  text-align: center;
+.subscribe-wrapper {
   width: 100%;
-  max-width: 623px; /* Match Beehiiv's default width */
-  display: block; /* Changed from flex to block */
+  display: flex;
+  justify-content: center;
+  padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+  margin: calc(var(--spacing-unit) * 4) 0;
+}
+
+.subscribe-section {
+  width: 100%;
+  max-width: 623px;
+  margin: 0 auto;
+  position: relative;
 }
 
 .beehiiv-embed {
-  height: 379px !important;
-  transition: height 0.3s ease;
-  display: block !important;
-  margin: 0 auto !important;
   width: 100% !important;
+  height: 379px !important;
+  max-width: 623px !important;
+  margin: 0 !important;
+  display: block !important;
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: none !important;
 }
 
 @media (max-width: 640px) {
