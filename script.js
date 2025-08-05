@@ -1,0 +1,1 @@
+console.log("Pricetto game script loaded.");
