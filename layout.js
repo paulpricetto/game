@@ -7,7 +7,7 @@ const commonElements = {
   `,
   footer: `
     <footer>
-      <p>&copy; ${new Date().getFullYear()} Pricetto. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} Pricetto LLC. All rights reserved.</p>
     </footer>
   `
 };
