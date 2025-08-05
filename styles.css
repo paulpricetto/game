@@ -189,32 +189,7 @@ footer {
 }
 
 /* Subscribe Section */
-.subscribe-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
-  margin: calc(var(--spacing-unit) * 4) 0;
-}
-
-.subscribe-section {
-  width: 100%;
-  max-width: 623px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.beehiiv-embed {
-  width: 100% !important;
-  height: 379px !important;
-  max-width: 623px !important;
-  margin: 0 !important;
-  display: block !important;
-  position: relative !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  border: none !important;
-}
+/* Subscribe section styling handled inline */
 
 @media (max-width: 640px) {
   .beehiiv-embed {
