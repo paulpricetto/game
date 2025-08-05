@@ -189,10 +189,16 @@ footer {
 }
 
 /* Subscribe Section */
+.subscribe-container {
+  width: 100%;
+  max-width: 1168px;
+  margin: 32px auto;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 1200px) {
-  div[style*="width: 1168px"] {
-    width: 100% !important;
-    max-width: 1168px;
+  .subscribe-container {
     padding: 0 16px;
   }
 }
