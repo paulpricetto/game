@@ -189,7 +189,13 @@ footer {
 }
 
 /* Subscribe Section */
-/* Subscribe section styling handled inline */
+@media (max-width: 1200px) {
+  div[style*="width: 1168px"] {
+    width: 100% !important;
+    max-width: 1168px;
+    padding: 0 16px;
+  }
+}
 
 @media (max-width: 640px) {
   .beehiiv-embed {
