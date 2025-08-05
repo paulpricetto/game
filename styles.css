@@ -191,17 +191,19 @@ footer {
 /* Subscribe Section */
 .subscribe-section {
   padding: calc(var(--spacing-unit) * 4) 0;
-  margin: calc(var(--spacing-unit) * 4) 0;
+  margin: calc(var(--spacing-unit) * 4) auto;
   text-align: center;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 623px; /* Match Beehiiv's default width */
+  display: block; /* Changed from flex to block */
 }
 
 .beehiiv-embed {
   height: 379px !important;
   transition: height 0.3s ease;
+  display: block !important;
+  margin: 0 auto !important;
+  width: 100% !important;
 }
 
 @media (max-width: 640px) {
