@@ -190,17 +190,28 @@ footer {
 
 /* Subscribe Section */
 .subscribe-section {
-  padding: calc(var(--spacing-unit) * 7.5); /* 60px */
+  padding: calc(var(--spacing-unit) * 4) 0;
   margin: calc(var(--spacing-unit) * 4) 0;
   text-align: center;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Make sure the Beehiiv embed inherits our font */
-.subscribe-section iframe {
-  font-family: 'Inter', sans-serif !important;
+.beehiiv-embed {
+  height: 379px !important;
+  transition: height 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .beehiiv-embed {
+    height: 400px !important; /* Slightly taller on mobile */
+  }
+  
+  .subscribe-section {
+    padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
+  }
 }
 
 /* Hover Effects */

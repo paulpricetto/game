@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+  <!-- Beehiiv embed script -->
+  <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
 </head>
 <body>
   <div class="container">
@@ -26,12 +27,20 @@
     </main>
 
     <section class="subscribe-section">
-      <!-- This is where your Beehiiv embed form will appear -->
-      <div data-beehiiv-embed></div>
+      <iframe 
+        src="https://subscribe-forms.beehiiv.com/587fbbca-8100-4e2c-89b2-5da62ef83aab" 
+        class="beehiiv-embed" 
+        data-test-id="beehiiv-embed" 
+        frameborder="0" 
+        scrolling="no" 
+        style="width: 100%; max-width: 623px; margin: 0 auto; border-radius: 0 !important; background-color: transparent; box-shadow: none;"
+      ></iframe>
     </section>
   </div>
 
   <script src="layout.js"></script>
   <script src="script.js"></script>
+  <!-- Beehiiv attribution tracking -->
+  <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 </body>
 </html>
