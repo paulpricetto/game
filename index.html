@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
 </head>
 <body>
   <!-- Affiliate banner will be injected here by layout.js -->
@@ -26,13 +25,18 @@
       </div>
 
       <div style="display: flex; justify-content: center; width: 100%;">
-        <iframe 
-          src="https://subscribe-forms.beehiiv.com/587fbbca-8100-4e2c-89b2-5da62ef83aab"
-          data-test-id="beehiiv-embed"
-          frameborder="0"
-          scrolling="no"
-          style="width: 623px; height: 379px; border: none;"
-        ></iframe>
+        <div style="width: 623px;">
+          <script data-beehiiv-embed="true">
+            (function(d,t) {
+              var s=d.createElement(t);
+              s.async=true;
+              s.src="https://subscribe-forms.beehiiv.com/embed.js";
+              var ph=d.getElementsByTagName(t)[0];
+              ph.parentNode.insertBefore(s,ph);
+            })(document,'script')
+          </script>
+          <div data-beehiiv-embed-id="587fbbca-8100-4e2c-89b2-5da62ef83aab"></div>
+        </div>
       </div>
     </main>
 
