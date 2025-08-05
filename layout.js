@@ -14,11 +14,12 @@ const commonElements = {
 
 // Function to inject common elements
 function injectCommonElements() {
-  // Add affiliate banner at the start of body
-  document.body.insertAdjacentHTML('afterbegin', commonElements.affiliateBanner);
+  // Add affiliate banner before the container
+  const container = document.querySelector('.container');
+  container.insertAdjacentHTML('beforebegin', commonElements.affiliateBanner);
   
-  // Add footer before the closing body tag
-  document.body.insertAdjacentHTML('beforeend', commonElements.footer);
+  // Add footer after the main content but inside the container
+  container.insertAdjacentHTML('beforeend', commonElements.footer);
 }
 
 // Initialize layout when DOM is ready
