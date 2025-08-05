@@ -1,0 +1,42 @@
+{
+    "date": "2025-08-04",
+    "groups": [
+      {
+        "category": "Kid’s Toys Under $50",
+        "items": [
+          { "name": "LEGO Classic Bricks", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Barbie Doll", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Play-Doh 10 Pack", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Hot Wheels 5-Car Set", "image": "https://via.placeholder.com/150", "link": "" }
+        ]
+      },
+      {
+        "category": "LVMH-Owned Dresses",
+        "items": [
+          { "name": "Dior Evening Gown", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Fendi Midi Dress", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Loewe Maxi Wrap", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Givenchy Sheath", "image": "https://via.placeholder.com/150", "link": "" }
+        ]
+      },
+      {
+        "category": "4th of July Necessities",
+        "items": [
+          { "name": "Mini US Flags (Pack of 10)", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Charcoal Grill", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Red Solo Cups", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Fireworks Variety Pack", "image": "https://via.placeholder.com/150", "link": "" }
+        ]
+      },
+      {
+        "category": "Under $20 Skincare",
+        "items": [
+          { "name": "CeraVe Cleanser", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "The Ordinary Niacinamide", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "Cetaphil Moisturizer", "image": "https://via.placeholder.com/150", "link": "" },
+          { "name": "E.l.f. Hydrating Primer", "image": "https://via.placeholder.com/150", "link": "" }
+        ]
+      }
+    ]
+  }
+  
