@@ -14,6 +14,13 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   const [found, setFound] = useState<string[]>([]);
   const [history, setHistory] = useState<boolean[]>([]);
 
+  const solvedColors = [
+    "bg-yellow-100 text-yellow-900",
+    "bg-green-100 text-green-900",
+    "bg-blue-100 text-blue-900",
+    "bg-purple-100 text-purple-900",
+  ];
+
   function selectTile(index: number) {
     if (found.includes(tiles[index].category)) return;
     const toggled = selection.includes(index)
@@ -57,6 +64,12 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   }
 
   function submitGuess() {
+    if (found.length === 4) {
+      // Reopen results any time after game is finished
+      const mistakes = history.filter((v) => !v).length;
+      onComplete({ steps: history.length, mistakes, history, solvedCategories: found, puzzle });
+      return;
+    }
     if (selection.length === 4) {
       checkSelection(selection);
     }
@@ -79,11 +92,16 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
       {found.length > 0 && (
         <div className="mb-3 text-sm space-y-1">
           <div className="font-semibold">Solved</div>
-          {found.map((category) => {
-            const items = allItems.filter(i => i.category === category).map(i => i.name).join(', ');
+          {found.map((category, idx) => {
+            const items = allItems.filter(i => i.category === category);
             return (
-              <div key={category} className="rounded bg-green-50 text-green-900 px-2 py-1">
-                <span className="font-semibold">{category}</span>: {items}
+              <div key={category} className={`rounded px-2 py-1 ${solvedColors[idx] || 'bg-green-50 text-green-900'}`}>
+                <span className="font-semibold">{category}</span>: {items.map((it, i) => (
+                  <>
+                    <a key={it.name} className="underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
+                    {i < items.length - 1 ? ', ' : ''}
+                  </>
+                ))}
               </div>
             );
           })}
@@ -106,8 +124,8 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
         })}
       </div>
       <div className="mt-4 flex items-center gap-2">
-        <button onClick={submitGuess} disabled={selection.length !== 4}
-                className={`px-3 py-2 rounded text-white ${selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
+        <button onClick={submitGuess} disabled={found.length !== 4 && selection.length !== 4}
+                className={`px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
           {found.length === 4 ? 'View Results' : 'Submit'}
         </button>
         <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
