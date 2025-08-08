@@ -123,7 +123,7 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
           })}
         </div>
       )}
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {tiles.map((item: any, i: number) => {
           const isSelected = selection.includes(i);
           const isFound = found.includes(item.category);
@@ -140,8 +140,13 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                  <div className="text-white text-xs font-medium truncate drop-shadow">{item.name}</div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-4">
+                  <div
+                    className="text-white text-xs sm:text-sm leading-tight font-medium drop-shadow"
+                    style={{ display: '-webkit-box', WebkitLineClamp: 2 as any, WebkitBoxOrient: 'vertical' as any, overflow: 'hidden' }}
+                  >
+                    {item.name}
+                  </div>
                 </div>
               </div>
             </button>
