@@ -11,3 +11,6 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
 }
+
+/* Prevent image dragging ghost effect on buttons */
+img { user-select: none; -webkit-user-drag: none; }

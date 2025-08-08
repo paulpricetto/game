@@ -120,13 +120,22 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
           const isSelected = selection.includes(i);
           const isFound = found.includes(item.category);
           return (
-            <button key={i} onClick={() => selectTile(i)}
-              className={`p-2 border rounded text-sm ${isSelected ? 'bg-pricetto text-white' : 'bg-white'} ${isFound ? 'opacity-50' : ''}`}>
-              <img src={item.image}
-                   alt={item.name}
-                   className="w-full h-16 object-cover mb-1"
-                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }} />
-              {item.name}
+            <button
+              key={i}
+              onClick={() => selectTile(i)}
+              className={`group relative border rounded overflow-hidden ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto' : ''}`}
+            >
+              <div className="relative w-full aspect-square">
+                <img
+                  src={item.image || '/no-image.svg'}
+                  alt={item.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+                  <div className="text-white text-xs font-medium truncate drop-shadow">{item.name}</div>
+                </div>
+              </div>
             </button>
           );
         })}
