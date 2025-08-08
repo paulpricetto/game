@@ -21,6 +21,12 @@ export async function getPuzzle(dateString: string): Promise<PricettoPuzzle> {
       console.warn("Sanity fetch failed, falling back to local JSON", err);
     }
   }
+  // Try local CSV-backed endpoint first
+  try {
+    const resIdeas = await fetch("/api/puzzle/ideas", { cache: "no-store" });
+    if (resIdeas.ok) return resIdeas.json();
+  } catch {}
+  // Fallback to static file
   const res = await fetch("/game-data.json", { cache: "no-store" });
   return res.json();
 }
