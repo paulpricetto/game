@@ -27,7 +27,7 @@ export default function HomePage() {
       </div>
       {/* Header with logo */}
       <div className="flex items-center justify-center mb-4">
-        <Image src={LogoImg} alt="Pricetto" height={40} />
+        <Image src={LogoImg} alt="Pricetto" height={64} />
       </div>
       <h1 className="text-3xl font-bold text-pricetto mb-4 text-center">Pricetto Daily Game</h1>
       <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); }} />

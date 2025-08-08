@@ -27,32 +27,22 @@ export default function ResultsModal({ results, onClose }: Props) {
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg max-w-md w-full">
           <h2 className="text-xl font-bold mb-4">{results.fail ? 'Game Over' : 'You Win!'}</h2>
-        {results.solvedCategories && results.solvedCategories.length > 0 && (
-          <div className="mb-4 text-sm">
-            <div className="font-semibold">Solved categories</div>
-            <ul className="list-disc pl-5">
-              {results.solvedCategories.map((c: string) => (
-                <li key={c}>{c}</li>
-              ))}
-            </ul>
-          </div>
-        )}
         <div className="mb-4">
-          <button onClick={copyShare} className="px-3 py-2 bg-black text-white rounded">Share results</button>
+          <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
         </div>
           <ul>
             {results.puzzle.groups.map((g: any, gi: number) => (
               <li key={gi} className="mb-2">
                 <strong>{g.category}</strong>
                 <ul>
-                  {g.items.map((it: any, ii: number) => (
-                    <li key={ii}><a href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a></li>
-                  ))}
+                {g.items.map((it: any, ii: number) => (
+                  <li key={ii}><a className="text-pricetto underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a></li>
+                ))}
                 </ul>
               </li>
             ))}
           </ul>
-        <button className="mt-4 px-4 py-2 bg-pricetto text-white rounded" onClick={onClose}>Close</button>
+        <button className="mt-4 px-4 py-2 border rounded" onClick={onClose}>Close</button>
         </div>
       </div>
     );
