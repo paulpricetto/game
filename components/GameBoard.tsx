@@ -140,11 +140,8 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-4">
-                  <div
-                    className="text-white text-xs sm:text-sm leading-tight font-medium drop-shadow"
-                    style={{ display: '-webkit-box', WebkitLineClamp: 2 as any, WebkitBoxOrient: 'vertical' as any, overflow: 'hidden' }}
-                  >
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-5">
+                  <div className="text-white text-sm leading-tight font-semibold drop-shadow line-clamp-2">
                     {item.name}
                   </div>
                 </div>
