@@ -1,4 +1,4 @@
-import { client } from "./sanityClient";
+import { getSanityClient } from "./sanityClient";
 import { SANITY_CONFIG, PricettoPuzzle } from "./config";
 
 export async function getPuzzle(dateString: string): Promise<PricettoPuzzle> {
@@ -15,7 +15,7 @@ export async function getPuzzle(dateString: string): Promise<PricettoPuzzle> {
           }
         }
       }`;
-      const result = await client.fetch<PricettoPuzzle | null>(query);
+      const result = await getSanityClient().fetch<PricettoPuzzle | null>(query);
       if (result) return result;
     } catch (err) {
       console.warn("Sanity fetch failed, falling back to local JSON", err);
