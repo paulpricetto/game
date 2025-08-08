@@ -133,15 +133,15 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
               onClick={() => selectTile(i)}
               className={`group relative border rounded overflow-hidden ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto' : ''}`}
             >
-              <div className="relative w-full aspect-square">
+              <div className="relative w-full" style={{ paddingBottom: '150%' }}>
                 <img
                   src={item.image || '/no-image.svg'}
                   alt={item.name}
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-5">
-                  <div className="text-white text-sm leading-tight font-semibold drop-shadow line-clamp-2">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-6">
+                  <div className="text-white text-base leading-tight font-semibold drop-shadow line-clamp-2">
                     {item.name}
                   </div>
                 </div>
