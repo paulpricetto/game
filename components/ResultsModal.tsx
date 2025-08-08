@@ -30,6 +30,17 @@ export default function ResultsModal({ results, onClose }: Props) {
         <div className="mb-4">
           <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
         </div>
+          {/* Guess grid preview (like Connections) */}
+          {Array.isArray(results.guesses) && results.guesses.length > 0 && (
+            <div className="flex justify-center mb-4">
+              <div className="grid grid-cols-4 gap-1">
+                {results.guesses.map((g: any, i: number) => (
+                  <div key={i} className={`w-4 h-4 ${g.correct ? 'bg-green-500' : 'bg-red-400'}`} />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Results grid, similar to Connections layout */}
           <div className="grid grid-cols-1 gap-2 mb-4">
             {results.puzzle.groups.map((g: any, gi: number) => (
