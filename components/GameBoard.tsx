@@ -16,13 +16,12 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
 
   function selectTile(index: number) {
     if (found.includes(tiles[index].category)) return;
-    const newSelection = selection.includes(index)
+    const toggled = selection.includes(index)
       ? selection.filter(i => i !== index)
       : [...selection, index];
-    if (newSelection.length === 4) {
-      checkSelection(newSelection);
-    } else {
-      setSelection(newSelection);
+    // Limit to max 4 selections like Connections
+    if (toggled.length <= 4) {
+      setSelection(toggled);
     }
   }
 
@@ -57,6 +56,24 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
     setSelection([]);
   }
 
+  function submitGuess() {
+    if (selection.length === 4) {
+      checkSelection(selection);
+    }
+  }
+
+  function shuffleTiles() {
+    setTiles(prev => {
+      const shuffled = [...prev].sort(() => Math.random() - 0.5);
+      return shuffled;
+    });
+    setSelection([]);
+  }
+
+  function clearSelection() {
+    setSelection([]);
+  }
+
   return (
     <div>
       {found.length > 0 && (
@@ -85,7 +102,15 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
           );
         })}
       </div>
-      <div className="mt-4">Lives: {lives}</div>
+      <div className="mt-4 flex items-center gap-2">
+        <button onClick={submitGuess} disabled={selection.length !== 4}
+                className={`px-3 py-2 rounded text-white ${selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
+          Submit
+        </button>
+        <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
+        <button onClick={shuffleTiles} className="px-3 py-2 rounded border">Shuffle</button>
+        <span className="ml-auto">Lives: {lives}</span>
+      </div>
     </div>
   );
 }
