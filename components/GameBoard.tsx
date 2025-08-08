@@ -13,7 +13,7 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   const [lives, setLives] = useState(4);
   const [found, setFound] = useState<string[]>([]);
   const [history, setHistory] = useState<boolean[]>([]);
-  const [guesses, setGuesses] = useState<{ indices: number[]; correct: boolean; category?: string }[]>([]);
+  const [guesses, setGuesses] = useState<{ categories: string[]; correct: boolean }[]>([]);
 
   // Custom, non-Connections palette (brand-adjacent)
   const solvedColors = [
@@ -39,7 +39,9 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
     const isCorrect = cats.every(c => c === cats[0]);
     if (isCorrect) {
       const solvedCategory = cats[0];
-      setGuesses(prev => [...prev, { indices: sel, correct: true, category: solvedCategory }]);
+      const newGuess = { categories: cats, correct: true };
+      setGuesses(prev => [...prev, newGuess]);
+      const updatedGuesses = [...guesses, newGuess];
       const newFound = [...found, solvedCategory];
       setFound(newFound);
       // Remove solved tiles from the board
@@ -48,18 +50,20 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
         const next = [...prev, true];
         if (newFound.length === 4) {
           const mistakes = next.filter(v => !v).length;
-          onComplete({ steps: next.length, mistakes, history: next, guesses, solvedCategories: newFound, puzzle });
+          onComplete({ steps: next.length, mistakes, history: next, guesses: updatedGuesses, solvedCategories: newFound, puzzle });
         }
         return next;
       });
     } else {
-      setGuesses(prev => [...prev, { indices: sel, correct: false }]);
+      const newGuess = { categories: cats, correct: false };
+      setGuesses(prev => [...prev, newGuess]);
+      const updatedGuesses = [...guesses, newGuess];
       setHistory(prev => [...prev, false]);
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
           const mistakes = history.filter(v => !v).length + 1; // include this miss
-          onComplete({ fail: true, steps: history.length + 1, mistakes, history: [...history, false], guesses, solvedCategories: found, puzzle });
+          onComplete({ fail: true, steps: history.length + 1, mistakes, history: [...history, false], guesses: updatedGuesses, solvedCategories: found, puzzle });
         }
         return nextLives;
       });

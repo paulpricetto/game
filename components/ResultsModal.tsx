@@ -34,9 +34,18 @@ export default function ResultsModal({ results, onClose }: Props) {
           {Array.isArray(results.guesses) && results.guesses.length > 0 && (
             <div className="flex justify-center mb-4">
               <div className="grid grid-cols-4 gap-1">
-                {results.guesses.map((g: any, i: number) => (
-                  <div key={i} className={`w-4 h-4 ${g.correct ? 'bg-green-500' : 'bg-red-400'}`} />
-                ))}
+                {results.guesses.map((g: any, i: number) => {
+                  const uniqueCategoryCount = new Set(g.categories).size;
+                  // map count of unique categories to a color block (not NYT colors)
+                  const color = g.correct
+                    ? '#10b981' // emerald for correct
+                    : uniqueCategoryCount === 3
+                      ? '#f59e0b' // amber for 3-1 split
+                      : uniqueCategoryCount === 2
+                        ? '#ef4444' // red for 2-2 split
+                        : '#94a3b8'; // slate as fallback
+                  return <div key={i} className="w-4 h-4" style={{ backgroundColor: color }} />;
+                })}
               </div>
             </div>
           )}
