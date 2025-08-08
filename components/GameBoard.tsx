@@ -14,6 +14,7 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   const [found, setFound] = useState<string[]>([]);
   const [history, setHistory] = useState<boolean[]>([]);
   const [guesses, setGuesses] = useState<{ categories: string[]; correct: boolean }[]>([]);
+  const [feedback, setFeedback] = useState<string>("");
 
   // Custom, non-Connections palette (brand-adjacent)
   const solvedColors = [
@@ -58,6 +59,13 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
       const newGuess = { categories: cats, correct: false };
       setGuesses(prev => [...prev, newGuess]);
       const updatedGuesses = [...guesses, newGuess];
+      // Show hint if 3-of-4 are the same category
+      const counts: Record<string, number> = {};
+      for (const c of cats) counts[c] = (counts[c] || 0) + 1;
+      if (Object.values(counts).includes(3)) {
+        setFeedback("3 of 4 correct");
+        window.setTimeout(() => setFeedback(""), 2000);
+      }
       setHistory(prev => [...prev, false]);
       setLives(prev => {
         const nextLives = prev - 1;
@@ -140,6 +148,11 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
           );
         })}
       </div>
+      {feedback && (
+        <div className="mt-3 text-sm font-medium text-amber-700 bg-amber-100 border border-amber-200 px-3 py-2 rounded">
+          {feedback}
+        </div>
+      )}
       <div className="mt-4 flex items-center gap-2">
         <button onClick={submitGuess} disabled={found.length !== 4 && selection.length !== 4}
                 className={`px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
