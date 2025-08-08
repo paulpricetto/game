@@ -14,11 +14,12 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   const [found, setFound] = useState<string[]>([]);
   const [history, setHistory] = useState<boolean[]>([]);
 
+  // Custom, non-Connections palette (brand-adjacent)
   const solvedColors = [
-    "bg-yellow-100 text-yellow-900",
-    "bg-green-100 text-green-900",
-    "bg-blue-100 text-blue-900",
-    "bg-purple-100 text-purple-900",
+    "bg-[#E6F6F3] text-[#0B4B46]", // teal mist
+    "bg-[#F4F7E8] text-[#3A4A2A]", // sage tint
+    "bg-[#F7F3E8] text-[#4A3A2A]", // sand tint
+    "bg-[#EDE8F7] text-[#3A2A4A]", // lavender tint
   ];
 
   function selectTile(index: number) {

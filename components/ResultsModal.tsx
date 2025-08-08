@@ -30,18 +30,19 @@ export default function ResultsModal({ results, onClose }: Props) {
         <div className="mb-4">
           <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
         </div>
-          <ul>
+          {/* Results grid, similar to Connections layout */}
+          <div className="grid grid-cols-1 gap-2 mb-4">
             {results.puzzle.groups.map((g: any, gi: number) => (
-              <li key={gi} className="mb-2">
-                <strong>{g.category}</strong>
-                <ul>
-                {g.items.map((it: any, ii: number) => (
-                  <li key={ii}><a className="text-pricetto underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a></li>
-                ))}
-                </ul>
-              </li>
+              <div key={gi} className="rounded border p-3">
+                <div className="font-semibold mb-1">{g.category}</div>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  {g.items.map((it: any, ii: number) => (
+                    <a key={ii} className="truncate text-pricetto underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
+                  ))}
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         <button className="mt-4 px-4 py-2 border rounded" onClick={onClose}>Close</button>
         </div>
       </div>
