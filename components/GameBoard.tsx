@@ -77,13 +77,16 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   return (
     <div>
       {found.length > 0 && (
-        <div className="mb-3 text-sm">
-          <span className="font-semibold">Solved:</span>
-          {found.map((c) => (
-            <span key={c} className="ml-2 inline-block bg-green-100 text-green-800 px-2 py-0.5 rounded">
-              {c}
-            </span>
-          ))}
+        <div className="mb-3 text-sm space-y-1">
+          <div className="font-semibold">Solved</div>
+          {found.map((category) => {
+            const items = allItems.filter(i => i.category === category).map(i => i.name).join(', ');
+            return (
+              <div key={category} className="rounded bg-green-50 text-green-900 px-2 py-1">
+                <span className="font-semibold">{category}</span>: {items}
+              </div>
+            );
+          })}
         </div>
       )}
       <div className="grid grid-cols-4 gap-2">

@@ -4,6 +4,8 @@ import { getPuzzle } from "../lib/getPuzzle";
 import GameBoard from "../components/GameBoard";
 import ResultsModal from "../components/ResultsModal";
 import type { PricettoPuzzle } from "../lib/config";
+import Image from "next/image";
+import LogoImg from "../Branding/Logos/Dark Cyan on White.png";
 
 export default function HomePage() {
   const [puzzle, setPuzzle] = useState<PricettoPuzzle | null>(null);
@@ -25,7 +27,7 @@ export default function HomePage() {
       </div>
       {/* Header with logo */}
       <div className="flex items-center justify-center mb-4">
-        <img src="/logo.png" alt="Pricetto" className="h-10" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+        <Image src={LogoImg} alt="Pricetto" height={40} />
       </div>
       <h1 className="text-3xl font-bold text-pricetto mb-4 text-center">Pricetto Daily Game</h1>
       <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); }} />
