@@ -191,8 +191,12 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
                 className={`px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
           {found.length === 4 ? 'View Results' : 'Submit'}
         </button>
-        <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
-        <button onClick={shuffleTiles} className="px-3 py-2 rounded border">Shuffle</button>
+        {found.length < 4 && lives > 0 && (
+          <>
+            <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
+            <button onClick={shuffleTiles} className="px-3 py-2 rounded border">Shuffle</button>
+          </>
+        )}
         {onSubscribe && (
           <button onClick={onSubscribe} className="px-2 py-2 rounded border text-xs">Subscribe</button>
         )}
