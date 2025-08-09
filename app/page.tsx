@@ -6,11 +6,13 @@ import ResultsModal from "../components/ResultsModal";
 import type { PricettoPuzzle } from "../lib/config";
 import Image from "next/image";
 import LogoImg from "../Branding/Logos/Dark Cyan on White.png";
+import RulesModal from "../components/RulesModal";
 
 export default function HomePage() {
   const [puzzle, setPuzzle] = useState<PricettoPuzzle | null>(null);
   const [completed, setCompleted] = useState(false);
   const [results, setResults] = useState<any>(null);
+  const [showRules, setShowRules] = useState(true);
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -29,7 +31,10 @@ export default function HomePage() {
       <div className="flex items-center justify-center mb-4">
         <Image src={LogoImg} alt="Pricetto" height={84} />
       </div>
-      <h1 className="text-3xl font-bold text-pricetto mb-4 text-center">Pricetto Daily Game</h1>
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
+        <button onClick={() => setShowRules(true)} className="ml-2 text-sm underline text-pricetto">Rules</button>
+      </div>
       <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); }} />
       {/* Newsletter embed */}
       <div className="mt-8 flex justify-center">
@@ -42,6 +47,7 @@ export default function HomePage() {
         />
       </div>
       {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} />}
+      {showRules && <RulesModal onClose={() => setShowRules(false)} />}
     </main>
   );
 }
