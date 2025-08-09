@@ -14,3 +14,20 @@ body {
 
 /* Prevent image dragging ghost effect on buttons */
 img { user-select: none; -webkit-user-drag: none; }
+
+/* Animations */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.animate-shake { animation: shake 380ms ease-in-out; }
+
+@keyframes solved {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.04); }
+  100% { transform: scale(0); opacity: 0; }
+}
+.animate-solved { animation: solved 450ms ease-in-out forwards; }

@@ -15,6 +15,8 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
   const [history, setHistory] = useState<boolean[]>([]);
   const [guesses, setGuesses] = useState<{ categories: string[]; correct: boolean }[]>([]);
   const [feedback, setFeedback] = useState<string>("");
+  const [wrongShake, setWrongShake] = useState<number[]>([]);
+  const [solving, setSolving] = useState<string | null>(null);
 
   // Custom, non-Connections palette (brand-adjacent)
   const solvedColors = [
@@ -42,19 +44,27 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
       const solvedCategory = cats[0];
       const newGuess = { categories: cats, correct: true };
       setGuesses(prev => [...prev, newGuess]);
-      const updatedGuesses = [...guesses, newGuess];
-      const newFound = [...found, solvedCategory];
-      setFound(newFound);
-      // Remove solved tiles from the board
-      setTiles(prev => prev.filter(t => t.category !== solvedCategory));
+      setSolving(solvedCategory);
+      // record success in history and possibly finish
+      let nextHistoryRef: boolean[] = [];
       setHistory(prev => {
         const next = [...prev, true];
-        if (newFound.length === 4) {
-          const mistakes = next.filter(v => !v).length;
-          onComplete({ steps: next.length, mistakes, history: next, guesses: updatedGuesses, solvedCategories: newFound, puzzle });
-        }
+        nextHistoryRef = next;
+        setFound(prevFound => {
+          const nf = [...prevFound, solvedCategory];
+          if (nf.length === 4) {
+            const mistakes = next.filter(v => !v).length;
+            onComplete({ steps: next.length, mistakes, history: next, guesses: [...guesses, newGuess], solvedCategories: nf, puzzle });
+          }
+          return nf;
+        });
         return next;
       });
+      // delay removal so we can animate solved tiles
+      window.setTimeout(() => {
+        setTiles(prev => prev.filter(t => t.category !== solvedCategory));
+        setSolving(null);
+      }, 450);
     } else {
       const newGuess = { categories: cats, correct: false };
       setGuesses(prev => [...prev, newGuess]);
@@ -66,6 +76,12 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
         setFeedback("3 of 4 correct");
         window.setTimeout(() => setFeedback(""), 2000);
       }
+      // Shake selected tiles and vibrate on mobile
+      setWrongShake(sel);
+      if (navigator?.vibrate) {
+        try { navigator.vibrate(120); } catch {}
+      }
+      window.setTimeout(() => setWrongShake([]), 380);
       setHistory(prev => [...prev, false]);
       setLives(prev => {
         const nextLives = prev - 1;
@@ -131,7 +147,7 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
             <button
               key={i}
               onClick={() => selectTile(i)}
-              className={`group relative border rounded overflow-hidden ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto' : ''}`}
+              className={`group relative border rounded overflow-hidden transition-transform will-change-transform ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto scale-[0.98]' : 'hover:scale-[0.99]'} ${wrongShake.includes(i) ? 'animate-shake' : ''} ${solving && item.category === solving ? 'animate-solved' : ''}`}
             >
               <div className="relative w-full" style={{ paddingBottom: '150%' }}>
                 <img
