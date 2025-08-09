@@ -37,7 +37,7 @@ export default function HomePage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
         <button onClick={() => setShowRules(true)} className="ml-2 text-sm underline text-pricetto">Rules</button>
       </div>
-      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); }} />
+      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); }} onSubscribe={() => setShowSubscribe(true)} />
       {/* Inline subscribe button removed to keep gameplay above-the-fold */}
       {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} onSubscribe={() => setShowSubscribe(true)} />}
       {showRules && <RulesModal onClose={() => setShowRules(false)} />}

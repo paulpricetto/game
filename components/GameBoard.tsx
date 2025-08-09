@@ -4,9 +4,10 @@ import type { PricettoPuzzle } from "../lib/config";
 type Props = {
   puzzle: PricettoPuzzle;
   onComplete: (results: any) => void;
+  onSubscribe?: () => void;
 };
 
-export default function GameBoard({ puzzle, onComplete }: Props) {
+export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
   const allItems = puzzle.groups.flatMap((g) => g.items.map((item) => ({ ...item, category: g.category })));
   const [tiles, setTiles] = useState(() => allItems.sort(() => Math.random() - 0.5));
   const [selection, setSelection] = useState<number[]>([]);
@@ -119,6 +120,16 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
     setSelection([]);
   }
 
+  function livesIndicator(l: number) {
+    const percent = (l / 4) * 100;
+    const bg = `conic-gradient(#086870 0 ${percent}%, #e5e7eb ${percent}% 100%)`;
+    return (
+      <div className="relative w-6 h-6 rounded-full" title={`Lives: ${l}`} aria-label={`Lives: ${l}`} style={{ background: bg }}>
+        <div className="absolute inset-[3px] bg-white rounded-full" />
+      </div>
+    );
+  }
+
   return (
     <div>
       {found.length > 0 && (
@@ -178,7 +189,11 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
         </button>
         <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
         <button onClick={shuffleTiles} className="px-3 py-2 rounded border">Shuffle</button>
-        <span className="ml-auto">Lives: {lives}</span>
+        {onSubscribe && (
+          <button onClick={onSubscribe} className="px-2 py-2 rounded border text-xs">Subscribe</button>
+        )}
+        <span className="ml-auto" />
+        {livesIndicator(lives)}
       </div>
     </div>
   );
