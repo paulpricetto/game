@@ -167,8 +167,12 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 pt-6">
-                  <div className="text-white text-base leading-tight font-semibold drop-shadow line-clamp-2">
+                <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 ${isSelected ? 'pt-8' : 'pt-6'}`}>
+                  <div
+                    className={`${isSelected ? 'text-[13px] leading-snug line-clamp-3' : 'text-base leading-tight line-clamp-2'} text-white font-semibold drop-shadow`}
+                    style={{ wordBreak: 'break-word', hyphens: 'auto' as any }}
+                    title={item.name}
+                  >
                     {item.name}
                   </div>
                 </div>
