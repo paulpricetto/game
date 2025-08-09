@@ -8,7 +8,7 @@ export default function RulesModal({ onClose }: Props) {
       <div className="bg-white rounded-lg max-w-md w-full p-6">
         <h2 className="text-2xl font-bold mb-2 text-pricetto">How to play</h2>
         <p className="text-sm text-gray-700 mb-4">
-          Group 16 products into the four categoriess.
+          Group 16 products into the four categories.
         </p>
         <ul className="list-disc pl-5 space-y-2 text-sm">
           <li>Select <span className="font-semibold">4 tiles</span> that belong together, then tap <span className="font-semibold">Submit</span>.</li>

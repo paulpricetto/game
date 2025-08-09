@@ -171,7 +171,7 @@ export default function GameBoard({ puzzle, onComplete }: Props) {
           {feedback}
         </div>
       )}
-      <div className="mt-4 flex items-center gap-2">
+      <div className="mt-3 flex items-center gap-2">
         <button onClick={submitGuess} disabled={found.length !== 4 && selection.length !== 4}
                 className={`px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
           {found.length === 4 ? 'View Results' : 'Submit'}

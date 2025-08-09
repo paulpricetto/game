@@ -13,9 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={poppins.className + " min-h-screen"}>
         {children}
-        <footer className="mt-12 py-8 text-center text-sm text-gray-500">
+        <footer className="mt-8 py-6 text-center text-xs sm:text-sm text-gray-500">
           © {new Date().getFullYear()} Pricetto LLC. All rights reserved.
         </footer>
         {/* Beehiiv embed scripts (optional but harmless) */}
