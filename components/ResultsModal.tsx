@@ -1,6 +1,6 @@
-type Props = { results: any; onClose: () => void };
+type Props = { results: any; onClose: () => void; onSubscribe?: () => void };
 
-export default function ResultsModal({ results, onClose }: Props) {
+export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
   const shareText = (() => {
     const title = `Pricetto Daily Game ${results.fail ? '— X' : '— ✓'}`;
     const grid = (results.history || []).map((ok: boolean) => ok ? '🟩' : '🟥').join('');
@@ -27,8 +27,11 @@ export default function ResultsModal({ results, onClose }: Props) {
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg max-w-md w-full">
           <h2 className="text-xl font-bold mb-4">{results.fail ? 'Game Over' : 'You Win!'}</h2>
-        <div className="mb-4">
+        <div className="mb-4 flex gap-2">
           <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
+          {onSubscribe && (
+            <button onClick={onSubscribe} className="px-3 py-2 border rounded">Subscribe</button>
+          )}
         </div>
           {/* Guess grid preview (like Connections) */}
           {Array.isArray(results.guesses) && results.guesses.length > 0 && (

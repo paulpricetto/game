@@ -7,12 +7,14 @@ import type { PricettoPuzzle } from "../lib/config";
 import Image from "next/image";
 import LogoImg from "../Branding/Logos/Dark Cyan on White.png";
 import RulesModal from "../components/RulesModal";
+import SubscribeModal from "../components/SubscribeModal";
 
 export default function HomePage() {
   const [puzzle, setPuzzle] = useState<PricettoPuzzle | null>(null);
   const [completed, setCompleted] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [showRules, setShowRules] = useState(true);
+  const [showSubscribe, setShowSubscribe] = useState(false);
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -35,19 +37,14 @@ export default function HomePage() {
         <h1 className="text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
         <button onClick={() => setShowRules(true)} className="ml-2 text-sm underline text-pricetto">Rules</button>
       </div>
-      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); }} />
-      {/* Newsletter embed */}
+      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); }} />
+      {/* Subscribe CTA (lazy, opens modal) */}
       <div className="mt-8 flex justify-center">
-        <iframe
-          src="https://subscribe-forms.beehiiv.com/587fbbca-8100-4e2c-89b2-5da62ef83aab"
-          data-test-id="beehiiv-embed"
-          frameBorder="0"
-          scrolling="no"
-          style={{ width: 623, height: 379, border: "none", display: "inline-block" }}
-        />
+        <button onClick={() => setShowSubscribe(true)} className="px-4 py-2 border rounded">Subscribe for daily deals</button>
       </div>
-      {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} />}
+      {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} onSubscribe={() => setShowSubscribe(true)} />}
       {showRules && <RulesModal onClose={() => setShowRules(false)} />}
+      {showSubscribe && <SubscribeModal onClose={() => setShowSubscribe(false)} />}
     </main>
   );
 }
