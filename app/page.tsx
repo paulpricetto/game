@@ -8,6 +8,7 @@ import Image from "next/image";
 import LogoImg from "../Branding/Logos/Dark Cyan on White.png";
 import RulesModal from "../components/RulesModal";
 import SubscribeModal from "../components/SubscribeModal";
+import StatsModal, { recordResult } from "../components/StatsModal";
 
 export default function HomePage() {
   const [puzzle, setPuzzle] = useState<PricettoPuzzle | null>(null);
@@ -15,10 +16,16 @@ export default function HomePage() {
   const [results, setResults] = useState<any>(null);
   const [showRules, setShowRules] = useState(true);
   const [showSubscribe, setShowSubscribe] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     getPuzzle(today).then(setPuzzle);
+    // load dark mode pref
+    try {
+      const pref = localStorage.getItem('pricetto-dark');
+      if (pref === '1') document.documentElement.classList.add('dark');
+    } catch {}
   }, []);
 
   if (!puzzle) return <div className="p-8 text-center">Loading puzzle…</div>;
@@ -35,13 +42,18 @@ export default function HomePage() {
       </div>
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl sm:text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
-        <button onClick={() => setShowRules(true)} className="ml-2 text-sm underline text-pricetto">Rules</button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => setShowRules(true)} className="text-sm underline text-pricetto">Rules</button>
+          <button onClick={() => setShowStats(true)} className="text-sm underline">Stats</button>
+          <button onClick={() => { document.documentElement.classList.toggle('dark'); try { localStorage.setItem('pricetto-dark', document.documentElement.classList.contains('dark') ? '1' : '0'); } catch {} }} className="text-sm underline">Dark</button>
+        </div>
       </div>
-      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); }} onSubscribe={() => setShowSubscribe(true)} />
+      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); try { recordResult(r.fail ? 5 : r.mistakes ?? 0); } catch {} }} onSubscribe={() => setShowSubscribe(true)} />
       {/* Inline subscribe button removed to keep gameplay above-the-fold */}
       {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} onSubscribe={() => setShowSubscribe(true)} />}
       {showRules && <RulesModal onClose={() => setShowRules(false)} />}
       {showSubscribe && <SubscribeModal onClose={() => setShowSubscribe(false)} />}
+      {showStats && <StatsModal onClose={() => setShowStats(false)} />}
     </main>
   );
 }
