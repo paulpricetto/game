@@ -1,10 +1,22 @@
 type Props = { results: any; onClose: () => void; onSubscribe?: () => void };
 
 export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
+  const emojiPalette = ["🟨", "🟩", "🟦", "🟪"]; // Stevan's order
+  const categoryToEmoji: Record<string, string> = {};
+  results.puzzle.groups.forEach((g: any, idx: number) => {
+    categoryToEmoji[g.category] = emojiPalette[idx] || "⬜";
+  });
+
+  const emojiRows: string[] = Array.isArray(results.guesses)
+    ? results.guesses.map((g: any) => (g.categories || []).map((c: string) => categoryToEmoji[c] || "⬜").join(""))
+    : [];
+
   const shareText = (() => {
-    const title = `Pricetto Daily Game ${results.fail ? '— X' : '— ✓'}`;
-    const grid = (results.history || []).map((ok: boolean) => ok ? '🟩' : '🟥').join('');
-    return `${title}\nSteps: ${results.steps}  Mistakes: ${results.mistakes}\n${grid}`;
+    const date = results.puzzle?.date ? `#${results.puzzle.date}` : "";
+    const title = `Pricetto Daily ${date}`.trim();
+    const header = results.fail ? `${title} — X` : `${title} — ✓`;
+    const gridBlock = emojiRows.join("\n");
+    return `${header}\nSteps: ${results.steps}  Mistakes: ${results.mistakes}\n${gridBlock}`;
   })();
 
   async function copyShare() {
@@ -33,34 +45,21 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
             <button onClick={onSubscribe} className="px-3 py-2 border rounded">Subscribe</button>
           )}
         </div>
-          {/* Guess grid preview (like Connections) */}
-          {Array.isArray(results.guesses) && results.guesses.length > 0 && (
-            <div className="flex justify-center mb-4">
-              <div className="grid grid-cols-4 gap-1">
-                {results.guesses.map((g: any, i: number) => {
-                  const uniqueCategoryCount = new Set(g.categories).size;
-                  // map count of unique categories to a color block (not NYT colors)
-                  const color = g.correct
-                    ? '#10b981' // emerald for correct
-                    : uniqueCategoryCount === 3
-                      ? '#f59e0b' // amber for 3-1 split
-                      : uniqueCategoryCount === 2
-                        ? '#ef4444' // red for 2-2 split
-                        : '#94a3b8'; // slate as fallback
-                  return <div key={i} className="w-4 h-4" style={{ backgroundColor: color }} />;
-                })}
-              </div>
+          {/* Emoji rows exactly like share output */}
+          {emojiRows.length > 0 && (
+            <div className="mb-4 font-mono text-lg leading-tight whitespace-pre text-center">
+              {emojiRows.join("\n")}
             </div>
           )}
 
-          {/* Results grid, similar to Connections layout */}
-          <div className="grid grid-cols-1 gap-2 mb-4">
+          {/* Results list with colored rows */}
+          <div className="space-y-2 mb-4">
             {results.puzzle.groups.map((g: any, gi: number) => (
-              <div key={gi} className="rounded border p-3">
+              <div key={gi} className="rounded p-3 text-white" style={{ backgroundColor: ['#facc15','#10b981','#3b82f6','#8b5cf6'][gi] }}>
                 <div className="font-semibold mb-1">{g.category}</div>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {g.items.map((it: any, ii: number) => (
-                    <a key={ii} className="truncate text-pricetto underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
+                    <a key={ii} className="truncate underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
                   ))}
                 </div>
               </div>
