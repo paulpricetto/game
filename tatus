@@ -1,0 +1,5 @@
+[33m11d5cb1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m feat: add persistent game state, stats tracking, dark mode
+[33md492ba7[m chore: add gitignore for node_modules and .next
+[33m98d04b5[m Added persistent game state (tiles, lives, found, fistory, guesses) saved in localStorage per puzzle date. Finishing or losing clears it. Added local stats tracking (played, won, win %, streak, max streak, guess distribution), and wired it to record on game end. Stats modal component is ready (not yet linked to a button so still need to do. Added dark mode toggoe, redid animations, added proper results grid
+[33m38eb308[m removed Stevan's Version
+[33m3e2615d[m Added persistent game state (tiles, lives, found, fistory, guesses) saved in localStorage per puzzle date. Finishing or losing clears it. Added local stats tracking (played, won, win %, streak, max streak, guess distribution), and wired it to record on game end. Stats modal component is ready (not yet linked to a button so still need to do. Added dark mode toggoe, redid animations, added proper results grid
