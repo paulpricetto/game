@@ -37,12 +37,12 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg max-w-md w-full">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full text-gray-900 dark:text-white">
           <h2 className="text-xl font-bold mb-4">{results.fail ? 'Game Over' : 'You Win!'}</h2>
         <div className="mb-4 flex gap-2">
           <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
           {onSubscribe && (
-            <button onClick={onSubscribe} className="px-3 py-2 border rounded">Subscribe</button>
+            <button onClick={onSubscribe} className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700">Subscribe</button>
           )}
         </div>
           {/* Emoji rows exactly like share output */}
@@ -65,7 +65,7 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
               </div>
             ))}
           </div>
-        <button className="mt-4 px-4 py-2 border rounded" onClick={onClose}>Close</button>
+        <button className="mt-4 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700" onClick={onClose}>Close</button>
         </div>
       </div>
     );

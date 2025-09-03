@@ -31,9 +31,9 @@ export default function HomePage() {
   if (!puzzle) return <div className="p-8 text-center">Loading puzzle…</div>;
 
   return (
-    <main className="max-w-xl mx-auto px-3 py-3 min-h-screen">
+    <main className="max-w-xl mx-auto px-3 py-3 min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors">
       {/* Affiliate disclosure banner */}
-      <div className="w-full bg-yellow-50 text-yellow-900 text-center text-xs sm:text-sm py-2 mb-3">
+      <div className="w-full bg-yellow-50 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 text-center text-xs sm:text-sm py-2 mb-3">
         To support our work, we may earn a commission from links in our content.
       </div>
       {/* Header with logo */}
@@ -43,9 +43,9 @@ export default function HomePage() {
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl sm:text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
         <div className="flex items-center gap-2">
-          <button onClick={() => setShowRules(true)} className="text-sm underline text-pricetto">Rules</button>
-          <button onClick={() => setShowStats(true)} className="text-sm underline">Stats</button>
-          <button onClick={() => { document.documentElement.classList.toggle('dark'); try { localStorage.setItem('pricetto-dark', document.documentElement.classList.contains('dark') ? '1' : '0'); } catch {} }} className="text-sm underline">Dark</button>
+          <button onClick={() => setShowRules(true)} className="text-sm underline text-pricetto dark:text-teal-400">Rules</button>
+          <button onClick={() => setShowStats(true)} className="text-sm underline text-gray-700 dark:text-gray-300">Stats</button>
+          <button onClick={() => { document.documentElement.classList.toggle('dark'); try { localStorage.setItem('pricetto-dark', document.documentElement.classList.contains('dark') ? '1' : '0'); } catch {} }} className="text-sm underline text-gray-700 dark:text-gray-300">Dark</button>
         </div>
       </div>
       <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); try { recordResult(r.fail ? 5 : r.mistakes ?? 0); } catch {} }} onSubscribe={() => setShowSubscribe(true)} />

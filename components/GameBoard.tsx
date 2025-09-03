@@ -19,12 +19,12 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
   const [wrongShake, setWrongShake] = useState<number[]>([]);
   const [solving, setSolving] = useState<string | null>(null);
 
-  // Custom, non-Connections palette (brand-adjacent)
+  // Custom, non-Connections palette (brand-adjacent) with dark mode support
   const solvedColors = [
-    "bg-[#E6F6F3] text-[#0B4B46]", // teal mist
-    "bg-[#F4F7E8] text-[#3A4A2A]", // sage tint
-    "bg-[#F7F3E8] text-[#4A3A2A]", // sand tint
-    "bg-[#EDE8F7] text-[#3A2A4A]", // lavender tint
+    "bg-[#E6F6F3] dark:bg-[#0B4B46] text-[#0B4B46] dark:text-[#E6F6F3]", // teal mist
+    "bg-[#F4F7E8] dark:bg-[#3A4A2A] text-[#3A4A2A] dark:text-[#F4F7E8]", // sage tint
+    "bg-[#F7F3E8] dark:bg-[#4A3A2A] text-[#4A3A2A] dark:text-[#F7F3E8]", // sand tint
+    "bg-[#EDE8F7] dark:bg-[#3A2A4A] text-[#3A2A4A] dark:text-[#EDE8F7]", // lavender tint
   ];
 
   function selectTile(index: number) {
@@ -125,7 +125,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
     const bg = `conic-gradient(#086870 0 ${percent}%, #e5e7eb ${percent}% 100%)`;
     return (
       <div className="relative w-6 h-6 rounded-full" title={`Lives: ${l}`} aria-label={`Lives: ${l}`} style={{ background: bg }}>
-        <div className="absolute inset-[3px] bg-white rounded-full" />
+        <div className="absolute inset-[3px] bg-white dark:bg-gray-900 rounded-full" />
       </div>
     );
   }
@@ -134,7 +134,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
     <div>
       {found.length > 0 && (
         <div className="mb-3 text-sm space-y-1">
-          <div className="font-semibold">Solved</div>
+          <div className="font-semibold text-gray-900 dark:text-gray-100">Solved</div>
           {found.map((category, idx) => {
             const items = allItems.filter(i => i.category === category);
             return (
@@ -182,7 +182,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
         })}
       </div>
       {feedback && (
-        <div className="mt-3 text-sm font-medium text-amber-700 bg-amber-100 border border-amber-200 px-3 py-2 rounded">
+        <div className="mt-3 text-sm font-medium text-amber-700 dark:text-amber-200 bg-amber-100 dark:bg-amber-900 border border-amber-200 dark:border-amber-700 px-3 py-2 rounded">
           {feedback}
         </div>
       )}
@@ -193,12 +193,12 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
         </button>
         {found.length < 4 && lives > 0 && (
           <>
-            <button onClick={clearSelection} className="px-3 py-2 rounded border">Clear</button>
-            <button onClick={shuffleTiles} className="px-3 py-2 rounded border">Shuffle</button>
+            <button onClick={clearSelection} className="px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Clear</button>
+            <button onClick={shuffleTiles} className="px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Shuffle</button>
           </>
         )}
         {onSubscribe && (
-          <button onClick={onSubscribe} className="px-2 py-2 rounded border text-xs">Subscribe</button>
+          <button onClick={onSubscribe} className="px-2 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs hover:bg-gray-50 dark:hover:bg-gray-800">Subscribe</button>
         )}
         <span className="ml-auto" />
         {livesIndicator(lives)}
