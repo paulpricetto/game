@@ -4,21 +4,11 @@ import { SANITY_CONFIG, PricettoPuzzle } from "./config";
 export async function getPuzzle(dateString: string): Promise<PricettoPuzzle> {
   if (SANITY_CONFIG.useSanity && SANITY_CONFIG.projectId) {
     try {
-      const query = `*[_type == "dailyPuzzle" && date == "${dateString}"][0]{
-        date,
-        groups[]{
-          category,
-          items[]{
-            name,
-            "image": image.asset->url,
-            link
-          }
-        }
-      }`;
-      const result = await getSanityClient().fetch<PricettoPuzzle | null>(query);
-      if (result) return result;
+      const url = `/api/puzzle/sanity?date=${encodeURIComponent(dateString)}`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (res.ok) return res.json();
     } catch (err) {
-      console.warn("Sanity fetch failed, falling back to local JSON", err);
+      console.warn("Sanity API route failed, falling back to CSV/static", err);
     }
   }
   // Try local CSV-backed endpoint first
