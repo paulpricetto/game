@@ -13,19 +13,19 @@ export async function GET(request: Request) {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || SANITY_CONFIG.projectId
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || SANITY_CONFIG.dataset
   const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || SANITY_CONFIG.apiVersion
-  const token = process.env.SANITY_API_READ_TOKEN
+  const token = process.env.SANITY_API_READ_TOKEN || undefined
 
-  if (!projectId || !dataset || !token) {
-    return NextResponse.json({ error: 'Sanity credentials not configured for API route' }, { status: 500 })
+  if (!projectId || !dataset) {
+    return NextResponse.json({ error: 'Sanity project/dataset not configured' }, { status: 500 })
   }
 
-  const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token })
+  const client = createClient({ projectId, dataset, apiVersion, useCdn: !token, token })
 
   const puzzleFields = `
     date,
-    groups[]{
-      category,
-      items[]{
+    "groups": groups[]->{
+      "category": title,
+      "items": products[]->{
         name,
         "image": image.asset->url,
         link
@@ -34,14 +34,17 @@ export async function GET(request: Request) {
   `
 
   try {
-    let puzzle = await client.fetch(`*[_type == "dailyPuzzle" && date == "${dateString}"][0]{${puzzleFields}}`)
+    const queryByDate = `*[_type == "dailyPuzzle" && date == $date][0]{${puzzleFields}}`
+    const latestQuery = `*[_type == "dailyPuzzle"] | order(date desc)[0]{${puzzleFields}}`
+    let puzzle = await client.fetch(queryByDate, { date: dateString })
     if (!puzzle) {
-      puzzle = await client.fetch(`*[_type == "dailyPuzzle"] | order(date desc)[0]{${puzzleFields}}`)
+      puzzle = await client.fetch(latestQuery)
     }
     if (puzzle) return NextResponse.json(puzzle)
     return NextResponse.json({ error: `No puzzle found for date ${dateString} or latest available` }, { status: 404 })
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch puzzle from Sanity' }, { status: 500 })
+  } catch (error: any) {
+    const message = typeof error?.message === 'string' ? error.message : 'Unknown error'
+    return NextResponse.json({ error: 'Failed to fetch puzzle from Sanity', details: message }, { status: 500 })
   }
 }
 

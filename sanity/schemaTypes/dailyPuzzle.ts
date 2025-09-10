@@ -16,7 +16,7 @@ export const dailyPuzzle = defineType({
       name: 'groups',
       title: 'Groups',
       type: 'array',
-      of: [{ type: 'category' }],
+      of: [{ type: 'reference', to: [{ type: 'category' }] }],
       validation: (Rule) => Rule.required().length(4),
     }),
     defineField({

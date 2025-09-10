@@ -52,7 +52,10 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
         const next = [...prev, true];
         nextHistoryRef = next;
         setFound(prevFound => {
-          const nf = [...prevFound, solvedCategory];
+          // avoid duplicate category entries
+          const nf = prevFound.includes(solvedCategory)
+            ? prevFound
+            : [...prevFound, solvedCategory];
           if (nf.length === 4) {
             const mistakes = next.filter(v => !v).length;
             onComplete({ steps: next.length, mistakes, history: next, guesses: [...guesses, newGuess], solvedCategories: nf, puzzle });

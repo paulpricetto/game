@@ -3,24 +3,30 @@ import { defineField, defineType } from 'sanity'
 export const category = defineType({
   name: 'category',
   title: 'Category',
-  type: 'object',
+  type: 'document',
   fields: [
     defineField({
-      name: 'category',
+      name: 'title',
       title: 'Category Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'items',
-      title: 'Items',
+      name: 'difficulty',
+      title: 'Difficulty (optional)',
+      type: 'string',
+      options: { list: ['easy', 'medium', 'hard'] },
+    }),
+    defineField({
+      name: 'products',
+      title: 'Products (4 per category)',
       type: 'array',
-      of: [{ type: 'product' }],
+      of: [{ type: 'reference', to: [{ type: 'product' }] }],
       validation: (Rule) => Rule.required().length(4),
     }),
   ],
   preview: {
-    select: { title: 'category' },
+    select: { title: 'title' },
   },
 })
 

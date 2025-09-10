@@ -4,11 +4,14 @@ import { PricettoPuzzle } from "./config";
 const puzzleFields = `
   date,
   groups[]{
-    category,
-    items[]{
-      name,
-      "image": image.asset->url,
-      link
+    "category": @->{
+      title,
+      difficulty,
+      "items": products[]->{
+        name,
+        "image": image.asset->url,
+        link
+      }
     }
   }
 `;
