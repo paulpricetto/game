@@ -166,7 +166,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
           })}
         </div>
       )}
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-3">
         {tiles.map((item: any, i: number) => {
           const isSelected = selection.includes(i);
           const isFound = found.includes(item.category);
@@ -174,23 +174,23 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
             <button
               key={i}
               onClick={() => selectTile(i)}
-              className={`group relative border rounded overflow-hidden transition-transform will-change-transform ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto scale-[0.98]' : 'hover:scale-[0.99]'} ${wrongShake.includes(i) ? 'animate-shake' : ''} ${solving && item.category === solving ? 'animate-solved' : ''}`}
+              className={`tile group relative overflow-hidden transition-transform will-change-transform ${isFound ? 'opacity-50' : ''} ${isSelected ? 'ring-2 ring-pricetto scale-[0.98]' : 'hover:scale-[0.99]'} ${wrongShake.includes(i) ? 'animate-shake' : ''} ${solving && item.category === solving ? 'animate-solved' : ''}`}
             >
-              <div className="relative w-full" style={{ paddingBottom: '150%' }}>
+              <div className="relative w-full" style={{ paddingBottom: '100%' }}>
                 <img
                   src={item.image || '/no-image.svg'}
                   alt={item.name}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-contain p-3 bg-white dark:bg-gray-900"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/no-image.svg'; }}
                 />
-                <div className={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 ${isSelected ? 'pt-8' : 'pt-6'}`}>
-                  <div
-                    className={`${isSelected ? 'text-[13px] leading-snug line-clamp-3' : 'text-base leading-tight line-clamp-2'} text-white font-semibold drop-shadow`}
-                    style={{ wordBreak: 'break-word', hyphens: 'auto' as any }}
-                    title={item.name}
-                  >
-                    {item.name}
-                  </div>
+              </div>
+              <div className="px-2 py-2 text-center">
+                <div
+                  className={`text-[13px] sm:text-sm leading-snug line-clamp-2 text-gray-900 dark:text-gray-100 font-semibold`}
+                  style={{ wordBreak: 'break-word', hyphens: 'auto' as any }}
+                  title={item.name}
+                >
+                  {item.name}
                 </div>
               </div>
             </button>
@@ -204,17 +204,17 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
       )}
       <div className="mt-3 flex items-center gap-2">
         <button onClick={submitGuess} disabled={found.length !== 4 && selection.length !== 4}
-                className={`px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
+                className={`h-10 px-3 py-2 rounded text-white ${found.length === 4 || selection.length === 4 ? 'bg-pricetto' : 'bg-gray-300 cursor-not-allowed'}`}>
           {found.length === 4 ? 'View Results' : 'Submit'}
         </button>
         {found.length < 4 && lives > 0 && (
           <>
-            <button onClick={clearSelection} className="px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Clear</button>
-            <button onClick={shuffleTiles} className="px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Shuffle</button>
+            <button onClick={clearSelection} className="h-10 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Clear</button>
+            <button onClick={shuffleTiles} className="h-10 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Shuffle</button>
           </>
         )}
         {onSubscribe && (
-          <button onClick={onSubscribe} className="px-2 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs hover:bg-gray-50 dark:hover:bg-gray-800">Subscribe</button>
+          <button onClick={onSubscribe} className="h-10 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-50 dark:hover:bg-gray-800">Subscribe</button>
         )}
         <span className="ml-auto" />
         {livesIndicator(lives)}

@@ -3,13 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --color-text: #222222;
-  --color-bg: #fdfdfd;
+  --color-text: #0f172a; /* slate-900 */
+  --color-bg: #f8fafc;   /* slate-50 */
+  --tile-bg: #ffffff;
+  --tile-border: #e2e8f0; /* slate-200 */
+}
+
+html.dark {
+  --color-text: #e2e8f0; /* slate-200 */
+  --color-bg: #0b1220;   /* custom deep slate */
+  --tile-bg: #0f1a2b;    /* card bg */
+  --tile-border: #1e293b; /* slate-800 */
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+}
+
+/* Tile defaults refined for dark mode */
+.tile {
+  background-color: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  border-radius: 0.5rem;
 }
 
 /* Prevent image dragging ghost effect on buttons */
