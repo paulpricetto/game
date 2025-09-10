@@ -25,6 +25,9 @@ export async function GET(request: Request) {
     date,
     "groups": groups[]->{
       "category": title,
+      "categoryLink": coalesce(categoryLink, ""),
+      "promoMessage": coalesce(promoMessage, ""),
+      // items kept for compatibility but not rendered as links in results
       "items": products[]->{
         name,
         "image": image.asset->url,

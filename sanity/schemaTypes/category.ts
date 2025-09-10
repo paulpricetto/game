@@ -12,6 +12,18 @@ export const category = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'categoryLink',
+      title: 'Category Link (affiliate or landing page)',
+      type: 'url',
+      validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
+    }),
+    defineField({
+      name: 'promoMessage',
+      title: 'Message (optional)',
+      type: 'string',
+      description: 'Short tagline shown in results, e.g. “THESE DEALS ON BACK TO SCHOOL ROCK!”',
+    }),
+    defineField({
       name: 'difficulty',
       title: 'Difficulty (optional)',
       type: 'string',

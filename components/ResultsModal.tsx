@@ -56,12 +56,10 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
           <div className="space-y-2 mb-4">
             {results.puzzle.groups.map((g: any, gi: number) => (
               <div key={gi} className="rounded p-3 text-white" style={{ backgroundColor: ['#facc15','#10b981','#3b82f6','#8b5cf6'][gi] }}>
-                <div className="font-semibold mb-1">{g.category}</div>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {g.items.map((it: any, ii: number) => (
-                    <a key={ii} className="truncate underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
-                  ))}
-                </div>
+                <a className="font-semibold mb-1 inline-block underline" href={g.categoryLink || '#'} target="_blank" rel="noopener noreferrer">{g.category}</a>
+                {g.promoMessage && (
+                  <div className="mt-1 text-sm opacity-90">{g.promoMessage}</div>
+                )}
               </div>
             ))}
           </div>

@@ -7,6 +7,8 @@ const puzzleFields = `
     "category": @->{
       title,
       difficulty,
+      categoryLink,
+      promoMessage,
       "items": products[]->{
         name,
         "image": image.asset->url,

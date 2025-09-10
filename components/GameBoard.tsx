@@ -9,6 +9,18 @@ type Props = {
 
 export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
   const allItems = puzzle.groups.flatMap((g) => g.items.map((item) => ({ ...item, category: g.category })));
+  // Map categories to their per-category links from the puzzle payload (if provided)
+  const categoryLinkByName: Record<string, string> = (() => {
+    const m: Record<string, string> = {};
+    try {
+      for (const g of (puzzle as any).groups || []) {
+        if ((g as any).category && (g as any).categoryLink) {
+          m[(g as any).category] = (g as any).categoryLink as string;
+        }
+      }
+    } catch {}
+    return m;
+  })();
   const [tiles, setTiles] = useState(() => allItems.sort(() => Math.random() - 0.5));
   const [selection, setSelection] = useState<number[]>([]);
   const [lives, setLives] = useState(4);
@@ -140,9 +152,10 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
           <div className="font-semibold text-gray-900 dark:text-gray-100">Solved</div>
           {found.map((category, idx) => {
             const items = allItems.filter(i => i.category === category);
+            const catLink = categoryLinkByName[category] || '#';
             return (
               <div key={category} className={`rounded px-2 py-1 ${solvedColors[idx] || 'bg-green-50 text-green-900'}`}>
-                <span className="font-semibold">{category}</span>: {items.map((it, i) => (
+                <a href={catLink} target="_blank" rel="noopener noreferrer" className="font-semibold underline">{category}</a>: {items.map((it, i) => (
                   <>
                     <a key={it.name} className="underline" href={it.link || '#'} target="_blank" rel="noopener noreferrer">{it.name}</a>
                     {i < items.length - 1 ? ', ' : ''}
