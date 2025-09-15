@@ -1,3 +1,4 @@
+import { event as gaEvent } from "../lib/gtag";
 type Props = {
   onClose: () => void;
 };
@@ -18,7 +19,7 @@ export default function RulesModal({ onClose }: Props) {
           <li>When you’re done, see if you can beat your friends!</li>
         </ul>
         <div className="mt-6 flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 bg-pricetto text-white rounded">Let's play!</button>
+          <button onClick={() => { try { gaEvent('start_game', { source: 'rules_modal' }); } catch {} ; onClose(); }} className="px-4 py-2 bg-pricetto text-white rounded">Let's play!</button>
         </div>
       </div>
     </div>

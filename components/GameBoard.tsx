@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { PricettoPuzzle } from "../lib/config";
+import { event as gaEvent } from "../lib/gtag";
 
 type Props = {
   puzzle: PricettoPuzzle;
@@ -30,6 +31,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
   const [feedback, setFeedback] = useState<string>("");
   const [wrongShake, setWrongShake] = useState<number[]>([]);
   const [solving, setSolving] = useState<string | null>(null);
+  const hasStartedRef = useRef(false);
 
   // Custom, non-Connections palette (brand-adjacent) with dark mode support
   const solvedColors = [
@@ -41,6 +43,10 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
 
   function selectTile(index: number) {
     if (found.includes(tiles[index].category)) return;
+    if (!hasStartedRef.current) {
+      hasStartedRef.current = true;
+      try { gaEvent('start_game'); } catch {}
+    }
     const toggled = selection.includes(index)
       ? selection.filter(i => i !== index)
       : [...selection, index];
@@ -53,6 +59,7 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
   function checkSelection(sel: number[]) {
     const cats = sel.map(i => tiles[i].category);
     const isCorrect = cats.every(c => c === cats[0]);
+    try { gaEvent('guess', { correct: isCorrect, categories: cats, lives_before: lives }); } catch {}
     if (isCorrect) {
       const solvedCategory = cats[0];
       const newGuess = { categories: cats, correct: true };
@@ -68,8 +75,10 @@ export default function GameBoard({ puzzle, onComplete, onSubscribe }: Props) {
           const nf = prevFound.includes(solvedCategory)
             ? prevFound
             : [...prevFound, solvedCategory];
+          try { gaEvent('group_solved', { category: solvedCategory, solved_count: prevFound.includes(solvedCategory) ? prevFound.length : prevFound.length + 1 }); } catch {}
           if (nf.length === 4) {
             const mistakes = next.filter(v => !v).length;
+            try { gaEvent('puzzle_solved', { mistakes, steps: next.length, date: (puzzle as any)?.date || '' }); } catch {}
             onComplete({ steps: next.length, mistakes, history: next, guesses: [...guesses, newGuess], solvedCategories: nf, puzzle });
           }
           return nf;

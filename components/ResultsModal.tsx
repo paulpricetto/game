@@ -1,3 +1,4 @@
+import { event as gaEvent } from "../lib/gtag";
 type Props = { results: any; onClose: () => void; onSubscribe?: () => void };
 
 export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
@@ -22,6 +23,7 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
   async function copyShare() {
     try {
       await navigator.clipboard.writeText(shareText);
+      try { gaEvent('share_click', { method: 'clipboard' }); } catch {}
       alert('Results copied to clipboard!');
     } catch {
       // fallback
@@ -31,6 +33,7 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
+      try { gaEvent('share_click', { method: 'fallback' }); } catch {}
       alert('Results copied to clipboard!');
     }
   }
@@ -42,7 +45,7 @@ export default function ResultsModal({ results, onClose, onSubscribe }: Props) {
         <div className="mb-4 flex gap-2">
           <button onClick={copyShare} className="px-3 py-2 bg-pricetto text-white rounded">Share results</button>
           {onSubscribe && (
-            <button onClick={onSubscribe} className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700">Subscribe</button>
+            <button onClick={() => { try { gaEvent('subscribe_opened', { source: 'results_modal' }); } catch {} ; onSubscribe(); }} className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700">Subscribe</button>
           )}
         </div>
           {/* Emoji rows exactly like share output */}

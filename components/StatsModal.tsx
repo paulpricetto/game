@@ -1,4 +1,5 @@
 'use client';
+import { event as gaEvent } from "../lib/gtag";
 
 type Stats = {
   distribution: number[]; // [0 mistakes, 1, 2, 3, 4, lost]
@@ -87,7 +88,7 @@ export default function StatsModal({ onClose }: { onClose: () => void }) {
           })}
         </div>
         <div className="text-right">
-          <button onClick={onClose} className="px-4 py-2 border rounded">Close</button>
+          <button onClick={() => { try { gaEvent('stats_closed'); } catch {} ; onClose(); }} className="px-4 py-2 border rounded">Close</button>
         </div>
       </div>
     </div>

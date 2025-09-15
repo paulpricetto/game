@@ -9,6 +9,7 @@ import LogoImg from "../Branding/Logos/Dark Cyan on White.png";
 import RulesModal from "../components/RulesModal";
 import SubscribeModal from "../components/SubscribeModal";
 import StatsModal, { recordResult } from "../components/StatsModal";
+import { event as gaEvent } from "../lib/gtag";
 
 export default function HomePage() {
   const [puzzle, setPuzzle] = useState<PricettoPuzzle | null>(null);
@@ -50,8 +51,8 @@ export default function HomePage() {
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl sm:text-3xl font-bold text-pricetto text-center mx-auto">Pricetto Daily Game</h1>
         <div className="flex items-center gap-2">
-          <button onClick={() => setShowRules(true)} className="text-sm underline text-pricetto dark:text-teal-400">Rules</button>
-          <button onClick={() => setShowStats(true)} className="text-sm underline text-gray-700 dark:text-gray-300">Stats</button>
+          <button onClick={() => { try { gaEvent('rules_opened'); } catch {} ; setShowRules(true); }} className="text-sm underline text-pricetto dark:text-teal-400">Rules</button>
+          <button onClick={() => { try { gaEvent('stats_opened'); } catch {} ; setShowStats(true); }} className="text-sm underline text-gray-700 dark:text-gray-300">Stats</button>
           <button
             onClick={() => {
               document.documentElement.classList.toggle('dark');
@@ -65,7 +66,7 @@ export default function HomePage() {
           </button>
         </div>
       </div>
-      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); try { recordResult(r.fail ? 5 : r.mistakes ?? 0); } catch {} }} onSubscribe={() => setShowSubscribe(true)} />
+      <GameBoard puzzle={puzzle} onComplete={(r) => { setResults(r); setCompleted(true); setShowSubscribe(true); try { recordResult(r.fail ? 5 : r.mistakes ?? 0); } catch {} ; try { gaEvent(r.fail ? 'puzzle_failed' : 'puzzle_solved', { mistakes: r.mistakes, steps: r.steps }); } catch {} }} onSubscribe={() => { try { gaEvent('subscribe_opened', { source: 'header_button' }); } catch {} ; setShowSubscribe(true); }} />
       {/* Inline subscribe button removed to keep gameplay above-the-fold */}
       {completed && <ResultsModal results={results} onClose={() => setCompleted(false)} onSubscribe={() => setShowSubscribe(true)} />}
       {showRules && <RulesModal onClose={() => setShowRules(false)} />}
