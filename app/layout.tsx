@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import React from "react";
+import React, { Suspense } from "react";
 import Script from "next/script";
 import Analytics from "./analytics";
 
@@ -36,7 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 });
               `}
             </Script>
-            <Analytics />
+            <Suspense fallback={null}>
+              <Analytics />
+            </Suspense>
           </>
         ) : null}
         {/* Beehiiv embed scripts (optional but harmless) */}
